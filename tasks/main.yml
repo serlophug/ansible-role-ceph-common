@@ -12,13 +12,6 @@
   # Hard code this so we will skip the entire file instead of individual tasks (Default isn't Consistent)
   static: False
 
-- name: include misc/configure_firewall_rpm.yml
-  include: misc/configure_firewall_rpm.yml
-  when:
-    - ansible_os_family in ['RedHat', 'Suse']
-  # Hard code this so we will skip the entire file instead of individual tasks (Default isn't Consistent)
-  static: False
-
 - name: include misc/system_tuning.yml
   include: misc/system_tuning.yml
   when:
@@ -30,15 +23,6 @@
   include: installs/install_on_redhat.yml
   when:
     - ansible_os_family == 'RedHat'
-  tags:
-    - package-install
-  # Hard code this so we will skip the entire file instead of individual tasks (Default isn't Consistent)
-  static: False
-
-- name: include installs/install_on_suse.yml
-  include: installs/install_on_suse.yml
-  when:
-    - ansible_os_family == 'Suse'
   tags:
     - package-install
   # Hard code this so we will skip the entire file instead of individual tasks (Default isn't Consistent)
@@ -62,18 +46,18 @@
   # Hard code this so we will skip the entire file instead of individual tasks (Default isn't Consistent)
   static: False
 
-- name: include ntp debian setup tasks
-  include: "misc/ntp_debian.yml"
+- name: include misc/ntp_redhat.yml
+  include: misc/ntp_redhat.yml
   when:
-    - ansible_os_family == 'Debian'
+    - ansible_os_family == 'RedHat'
     - ntp_service_enabled
   # Hard code this so we will skip the entire file instead of individual tasks (Default isn't Consistent)
   static: False
 
-- name: include ntp rpm setup tasks
-  include: "misc/ntp_rpm.yml"
+- name: include misc/ntp_debian.yml
+  include: misc/ntp_debian.yml
   when:
-    - ansible_os_family in ['RedHat', 'Suse']
+    - ansible_os_family == 'Debian'
     - ntp_service_enabled
   # Hard code this so we will skip the entire file instead of individual tasks (Default isn't Consistent)
   static: False
@@ -81,7 +65,7 @@
 - name: get ceph version
   command: ceph --version
   changed_when: false
-  check_mode: no
+  always_run: yes
   register: ceph_version
 
 - name: set_fact ceph_version

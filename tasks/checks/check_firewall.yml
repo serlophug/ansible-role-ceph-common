@@ -5,7 +5,7 @@
   failed_when: false
   register: nmapexist
   run_once: true
-  check_mode: no
+  always_run: true
 
 - name: inform that nmap is not present
   debug:
@@ -19,7 +19,7 @@
   changed_when: false
   failed_when: false
   register: monportstate
-  check_mode: no
+  always_run: true
   when:
     - mon_group_name in group_names
     - nmapexist.rc == 0
@@ -37,7 +37,7 @@
   changed_when: false
   failed_when: false
   register: osdrangestate
-  check_mode: no
+  always_run: true
   when:
     - osd_group_name in group_names
     - nmapexist.rc == 0
@@ -55,7 +55,7 @@
   changed_when: false
   failed_when: false
   register: mdsrangestate
-  check_mode: no
+  always_run: true
   when:
     - mds_group_name in group_names
     - nmapexist.rc == 0
@@ -73,7 +73,7 @@
   changed_when: false
   failed_when: false
   register: rgwportstate
-  check_mode: no
+  always_run: true
   when:
     - rgw_group_name in group_names
     - nmapexist.rc == 0
@@ -91,7 +91,7 @@
   changed_when: false
   failed_when: false
   register: nfsportstate
-  check_mode: no
+  always_run: true
   when:
     - nfs_group_name in group_names
     - nmapexist.rc == 0
