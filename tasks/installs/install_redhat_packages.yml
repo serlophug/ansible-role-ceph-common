@@ -13,6 +13,24 @@
   when:
     - ansible_distribution == 'CentOS'
 
+- name: Install redhat dependencies with Pip
+  pip:
+    executable: /usr/bin/pip
+    name: "{{ item }}"
+  with_items:
+    - "{{ redhat_package_dependencies_pip }}"
+  when:
+    - ansible_distribution == 'RedHat'
+
+- name: Install centos dependencies with Pip
+  pip:
+    executable: /usr/bin/pip
+    name: "{{ item }}"
+  with_items:
+    - "{{ centos_package_dependencies_pip }}"
+  when:
+    - ansible_distribution == 'CentOS'
+    
 - name: install redhat ceph-common
   package:
     name: "ceph-common"
