@@ -6,6 +6,13 @@
   when:
     - ansible_distribution == 'RedHat'
 
+- name: epel-release
+  yum:
+    name: epel-release
+    state: present
+  when:
+    - ansible_distribution == 'CentOS'
+
 - name: install centos dependencies
   yum:
     name: "{{ centos_package_dependencies }}"
